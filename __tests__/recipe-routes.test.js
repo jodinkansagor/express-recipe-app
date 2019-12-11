@@ -57,7 +57,7 @@ describe('app routes', () => {
     ]);
   });
 
-  it.skip('creates a recipe', () => {
+  it('creates a recipe', () => {
     return request(app)
       .post('/api/v1/recipes')
       .send({
@@ -171,38 +171,19 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('deletes a recipe from an id', async () => {
-    const recipe = await Recipe.create({
-      name: 'cookies',
-      ingredients: [{ name: 'sugar', amount: 1, measurements: 'cup' }, { name: 'flour', amount: 3, measurements: 'cup' }], directions: [
-        'preheat oven to 375',
-        'mix ingredients',
-        'put dough on cookie sheet',
-        'bake for 10 minutes'
-      ],
-    });
+  it('deletes a recipe from an id', () => {
+ 
 
     return request(app)
-      .delete(`/api/v1/recipes/${recipe._id}`)
+      .delete(`/api/v1/recipes/${cookies._id}`)
       .then(res => {
-
-        expect(res.body).toEqual({
-          _id: recipe._id.toString(),
-          name: 'cookies',
-          ingredients: [{
-            _id: expect.any(String),
-            name: 'sugar', amount: 1, measurements: 'cup'
-          }, {
-            _id: expect.any(String),
-            name: 'flour', amount: 3, measurements: 'cup'
-          }], directions: [
-            'preheat oven to 375',
-            'mix ingredients',
-            'put dough on cookie sheet',
-            'bake for 10 minutes'
-          ],
+        expect(res.body).toEqual([{
           __v: 0,
-        });
+          _id: expect.any(String),
+          directions: ['preheat oven to 375', 'mix ingredients', 'put dough on cookie sheet', 'bake for 10 minutes'],
+          ingredients: [{ _id: expect.any(String), amount: 1, measurements: 'cup', name: 'sugar' }, { _id: expect.any(String), amount: 3, measurements: 'cup', name: 'flour' }],
+          name: 'cookies' }, { deletedCount: 3, n: 3, ok: 1 }
+        ]);
       });
   });
 });
