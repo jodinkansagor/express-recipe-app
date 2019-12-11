@@ -91,7 +91,7 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('gets all recipes', async () => {
+  it('gets all recipes', async () => {
     const recipes = await Recipe.create([
       { name: 'cookies', directions: [] },
       { name: 'cake', directions: [] },
@@ -107,6 +107,14 @@ describe('app routes', () => {
             name: recipe.name
           });
         });
+      });
+  });
+
+  it('gets all recipes based on if it has an ingredient', () => {
+    return request(app)
+      .get('/api/v1/recipes?flour')
+      .then(res => {
+        expect(res.body).toEqual([{ _id: expect.any(String), name: 'cookies' }]);
       });
   });
 
@@ -172,7 +180,7 @@ describe('app routes', () => {
   });
 
   it('deletes a recipe from an id', () => {
- 
+
 
     return request(app)
       .delete(`/api/v1/recipes/${cookies._id}`)
@@ -182,7 +190,8 @@ describe('app routes', () => {
           _id: expect.any(String),
           directions: ['preheat oven to 375', 'mix ingredients', 'put dough on cookie sheet', 'bake for 10 minutes'],
           ingredients: [{ _id: expect.any(String), amount: 1, measurements: 'cup', name: 'sugar' }, { _id: expect.any(String), amount: 3, measurements: 'cup', name: 'flour' }],
-          name: 'cookies' }, { deletedCount: 3, n: 3, ok: 1 }
+          name: 'cookies'
+        }, { deletedCount: 3, n: 3, ok: 1 }
         ]);
       });
   });
