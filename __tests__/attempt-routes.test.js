@@ -5,6 +5,7 @@ const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const Attempt = require('../lib/models/Attempt');
+const Recipe = require('../lib/models/Recipe');
 
 describe('app routes', () => {
   beforeAll(() => {
@@ -19,11 +20,34 @@ describe('app routes', () => {
     return mongoose.connection.close();
   });
 
-  it.skip('creates an attempt', () => {
+  let cookieRecipe;
+  let attempt;
+  beforeEach(async () => {
+    cookieRecipe = await Recipe
+      .create({
+        name: 'cookies',
+        ingredients: [{ name: 'sugar', amount: 1, measurements: 'cup' }, { name: 'flour', amount: 3, measurements: 'cup' }],
+        directions: [
+          'preheat oven to 375',
+          'mix ingredients',
+          'put dough on cookie sheet',
+          'bake for 10 minutes']
+      });
+
+    attempt = await Attempt
+      .create({
+        recipeId: cookieRecipe._id,
+        dateOfEvent: 'December 13, 2019',
+        notes: 'good cookies',
+        rating: 15
+      });
+  });
+
+  it('creates an attempt', () => {
     return request(app)
       .post('/api/v1/attempts')
       .send({
-        recipeId: 'e1234',
+        recipeId: expect.any(String),
         dateOfEvent: 'December 9, 2019',
         notes: 'use more chocolate',
         rating: 5
@@ -40,7 +64,7 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('gets all attempts', async () => {
+  it('gets all attempts', async () => {
     const attempt = await Attempt.create([
       { recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5 },
       { recipeId: 'e1235', dateOfEvent: 'December 10, 2019', notes: 'more salt', rating: 4 },
@@ -59,7 +83,7 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('gets a attempt by id', async () => {
+  it('gets a attempt by id', async () => {
     const attempt = await Attempt.create({
       recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5,
     });
@@ -75,7 +99,7 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('updates a attempt by id', async () => {
+  it('updates a attempt by id', async () => {
     const attempt = await Attempt.create({
       recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5
     });
@@ -92,7 +116,7 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('deletes an attempt from an id', async () => {
+  it('deletes an attempt from an id', async () => {
     const attempt = await Attempt.create({
       recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5
     });
