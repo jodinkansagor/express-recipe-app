@@ -19,7 +19,7 @@ describe('app routes', () => {
     return mongoose.connection.close();
   });
 
-  it('creates an attempt', () => {
+  it.skip('creates an attempt', () => {
     return request(app)
       .post('/api/v1/attempts')
       .send({
@@ -40,7 +40,7 @@ describe('app routes', () => {
       });
   });
 
-  it('gets all attempts', async () => {
+  it.skip('gets all attempts', async () => {
     const attempt = await Attempt.create([
       { recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5 },
       { recipeId: 'e1235', dateOfEvent: 'December 10, 2019', notes: 'more salt', rating: 4 },
@@ -59,7 +59,7 @@ describe('app routes', () => {
       });
   });
 
-  it('gets a attempt by id', async () => {
+  it.skip('gets a attempt by id', async () => {
     const attempt = await Attempt.create({
       recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5,
     });
@@ -75,7 +75,7 @@ describe('app routes', () => {
       });
   });
 
-  it('updates a attempt by id', async () => {
+  it.skip('updates a attempt by id', async () => {
     const attempt = await Attempt.create({
       recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5
     });
@@ -92,7 +92,7 @@ describe('app routes', () => {
       });
   });
 
-  it('deletes an attempt from an id', async () => {
+  it.skip('deletes an attempt from an id', async () => {
     const attempt = await Attempt.create({
       recipeId: 'e1234', dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5
     });
