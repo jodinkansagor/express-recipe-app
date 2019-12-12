@@ -123,7 +123,7 @@ describe('app routes', () => {
     return request(app)
       .get(`/api/v1/recipes/${cookies._id}`)
       .then(res => {
-        expect(res.body).toEqual({
+        expect(res.body).toEqual(expect.objectContaining({
           _id: cookies._id.toString(),
           name: 'cookies',
           ingredients: [{
@@ -138,9 +138,8 @@ describe('app routes', () => {
             'put dough on cookie sheet',
             'bake for 10 minutes'
           ],
-          attempts: JSON.parse(JSON.stringify(cookieTries)),
           __v: 0
-        });
+        }));
       });
   });
 
