@@ -38,20 +38,20 @@ describe('app routes', () => {
     cookieTries = await Attempt.create([
       {
         recipeId: cookies._id,
-        dateOfEvent: new Date(),
+        dateOfEvent: new Date('December 12, 2019 00:00:00'),
         notes: 'perfect',
         rating: 20
       },
       {
         recipeId: cookies._id,
-        dateOfEvent: new Date(),
+        dateOfEvent: new Date('December 12, 2019 00:00:00'),
         notes: 'more salt',
         rating: 15
       },
       {
         recipeId: cookies._id,
-        dateOfEvent: 'December 25, 2019',
-        notes: new Date(),
+        dateOfEvent: new Date('December 12, 2019 00:00:00'),
+        notes: 'less peanutbutter',
         rating: 17
       }
     ]);
@@ -133,18 +133,20 @@ describe('app routes', () => {
       });
   });
 
-  it('gets a recipe by id', () => {
+  it.only('gets a recipe by id', () => {
 
     return request(app)
       .get(`/api/v1/recipes/${cookies._id}`)
       .then(res => {
-        expect(res.body).toEqual(expect.objectContaining({
+        expect(res.body).toEqual({
+          id: expect.any(String),
           _id: cookies._id.toString(),
           name: 'cookies',
           ingredients: [{
             _id: expect.any(String),
-            name: 'sugar', amount: 1, measurements: 'cup'
+            name: 'sugar', amount: 1, measurements: 'cup', id: expect.any(String)
           }, {
+            id: expect.any(String),
             _id: expect.any(String),
             name: 'flour', amount: 3, measurements: 'cup'
           }], directions: [
@@ -153,8 +155,43 @@ describe('app routes', () => {
             'put dough on cookie sheet',
             'bake for 10 minutes'
           ],
+          attempts: [{
+            '__v': 0,
+            '_id': expect.any(String),
+            'dateOfEvent': expect.any(String),
+            'day': 12,
+            'id': expect.any(String),
+            'month': 11,
+            'notes': 'perfect',
+            'rating': 20,
+            'recipeId': expect.any(String),
+            'year': 2019,
+          }, {
+            '__v': 0,
+            '_id': expect.any(String),
+            'dateOfEvent': expect.any(String),
+            'day': 12,
+            'id': expect.any(String),
+            'month': 11,
+            'notes': 'more salt',
+            'rating': 15,
+            'recipeId': expect.any(String),
+            'year': 2019,
+          }, {
+            '__v': 0,
+            '_id': expect.any(String),
+            'dateOfEvent': expect.any(String),
+            'day': 12,
+            'id': expect.any(String),
+            'month': 11,
+            'notes': 'less peanutbutter',
+            'rating': 17,
+            'recipeId': expect.any(String),
+            'year': 2019,
+          }
+          ],
           __v: 0
-        }));
+        });
       });
 
   });

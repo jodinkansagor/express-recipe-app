@@ -83,7 +83,7 @@ describe('app routes', () => {
       });
   });
 
-  it('gets a attempt by id', async () => {
+  it('gets a attempt by id', () => {
     return request(app)
       .get(`/api/v1/attempts/${attempt._id}`)
       .then(res => {
@@ -98,7 +98,7 @@ describe('app routes', () => {
       });
   });
 
-  it('updates a attempt by id', async () => {
+  it('updates a attempt by id', () => {
 
     return request(app)
       .patch(`/api/v1/attempts/${attempt._id}`)
@@ -112,7 +112,7 @@ describe('app routes', () => {
       });
   });
 
-  it('deletes an attempt from an id', async () => {
+  it('deletes an attempt from an id', () => {
     return request(app)
       .delete(`/api/v1/attempts/${attempt._id}`)
       .then(res => {
