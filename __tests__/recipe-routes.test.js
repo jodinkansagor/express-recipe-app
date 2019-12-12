@@ -38,21 +38,21 @@ describe('app routes', () => {
     cookieTries = await Attempt.create([
       {
         recipeId: cookies._id,
-        dateOfEvent: 'December 17, 2019',
+        dateOfEvent: new Date(),
         notes: 'perfect',
         rating: 20
       },
       {
         recipeId: cookies._id,
-        dateOfEvent: 'December 20, 2019',
+        dateOfEvent: new Date(),
         notes: 'more salt',
         rating: 15
       },
       {
         recipeId: cookies._id,
         dateOfEvent: 'December 25, 2019',
-        notes: 'add peanut butter',
-        rating: 50
+        notes: new Date(),
+        rating: 17
       }
     ]);
   });

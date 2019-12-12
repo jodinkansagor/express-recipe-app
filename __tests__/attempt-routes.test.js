@@ -37,7 +37,7 @@ describe('app routes', () => {
     attempt = await Attempt
       .create({
         recipeId: cookieRecipe._id,
-        dateOfEvent: 'December 13, 2019',
+        dateOfEvent: new Date(),
         notes: 'good cookies',
         rating: 15
       });
@@ -48,7 +48,7 @@ describe('app routes', () => {
       .post('/api/v1/attempts')
       .send({
         recipeId: cookieRecipe._id,
-        dateOfEvent: 'December 9, 2019',
+        dateOfEvent: Date.now(),
         notes: 'use more chocolate',
         rating: 5
       })
@@ -56,7 +56,7 @@ describe('app routes', () => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           recipeId: cookieRecipe._id.toString(),
-          dateOfEvent: 'December 9, 2019',
+          dateOfEvent: expect.any(String),
           notes: 'use more chocolate',
           rating: 5,
           __v: 0
@@ -66,9 +66,9 @@ describe('app routes', () => {
 
   it('gets all attempts', async () => {
     const attempt = await Attempt.create([
-      { recipeId: cookieRecipe._id.toString(), dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5 },
-      { recipeId: cookieRecipe._id.toString(), dateOfEvent: 'December 10, 2019', notes: 'more salt', rating: 4 },
-      { recipeId: cookieRecipe._id.toString(), dateOfEvent: 'December 11, 2019', notes: 'more pizzaz', rating: 5 }
+      { recipeId: cookieRecipe._id.toString(), dateOfEvent: Date.now(), notes: 'more chocolate', rating: 5 },
+      { recipeId: cookieRecipe._id.toString(), dateOfEvent: Date.now(), notes: 'more salt', rating: 4 },
+      { recipeId: cookieRecipe._id.toString(), dateOfEvent: Date.now(), notes: 'more pizzaz', rating: 5 }
     ]);
 
     return request(app)
@@ -90,7 +90,7 @@ describe('app routes', () => {
         expect(res.body).toEqual({
           _id: attempt._id.toString(),
           recipeId: JSON.parse(JSON.stringify(cookieRecipe._id)),
-          dateOfEvent: 'December 13, 2019',
+          dateOfEvent: expect.any(String),
           notes: 'good cookies',
           rating: 15,
           __v: 0
@@ -99,9 +99,6 @@ describe('app routes', () => {
   });
 
   it('updates a attempt by id', async () => {
-    const attempt = await Attempt.create({
-      recipeId: cookieRecipe._id.toString(), dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5
-    });
 
     return request(app)
       .patch(`/api/v1/attempts/${attempt._id}`)
@@ -109,24 +106,20 @@ describe('app routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          recipeId: cookieRecipe._id.toString(), dateOfEvent: 'December 9, 2019', notes: 'less flour', rating: 5,
+          recipeId: cookieRecipe._id.toString(), dateOfEvent: expect.any(String), notes: 'less flour', rating: 15,
           __v: 0
         });
       });
   });
 
   it('deletes an attempt from an id', async () => {
-    const attempt = await Attempt.create({
-      recipeId: cookieRecipe._id.toString(), dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5
-    });
-
     return request(app)
       .delete(`/api/v1/attempts/${attempt._id}`)
       .then(res => {
 
         expect(res.body).toEqual({
           _id: attempt._id.toString(),
-          recipeId: cookieRecipe._id.toString(), dateOfEvent: 'December 9, 2019', notes: 'more chocolate', rating: 5,
+          recipeId: cookieRecipe._id.toString(), dateOfEvent: expect.any(String), notes: 'good cookies', rating: 15,
           __v: 0,
         });
       });
