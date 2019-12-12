@@ -112,9 +112,24 @@ describe('app routes', () => {
 
   it('gets all recipes based on if it has an ingredient', () => {
     return request(app)
-      .get('/api/v1/recipes?flour')
+      .get('/api/v1/recipes?ingredients=flour')
       .then(res => {
-        expect(res.body).toEqual([{ _id: expect.any(String), name: 'cookies' }]);
+        expect(res.body).toEqual([{
+          '__v': 0,
+          '_id': JSON.parse(JSON.stringify(cookies._id)),
+          'directions': ['preheat oven to 375',
+            'mix ingredients',
+            'put dough on cookie sheet',
+            'bake for 10 minutes'],
+          'ingredients': [{
+            _id: expect.any(String),
+            name: 'sugar', amount: 1, measurements: 'cup'
+          }, {
+            _id: expect.any(String),
+            name: 'flour', amount: 3, measurements: 'cup'
+          }],
+          'name': 'cookies'
+        }]);
       });
   });
 
@@ -141,6 +156,7 @@ describe('app routes', () => {
           __v: 0
         }));
       });
+
   });
 
   it.skip('updates a recipe by id', async () => {
