@@ -41,18 +41,6 @@ describe('app routes', () => {
         dateOfEvent: new Date('December 12, 2019 00:00:00'),
         notes: 'perfect',
         rating: 20
-      },
-      {
-        recipeId: cookies._id,
-        dateOfEvent: new Date('December 12, 2019 00:00:00'),
-        notes: 'more salt',
-        rating: 15
-      },
-      {
-        recipeId: cookies._id,
-        dateOfEvent: new Date('December 12, 2019 00:00:00'),
-        notes: 'less peanutbutter',
-        rating: 17
       }
     ]);
   });
@@ -133,7 +121,7 @@ describe('app routes', () => {
       });
   });
 
-  it.only('gets a recipe by id', () => {
+  it('gets a recipe by id', () => {
 
     return request(app)
       .get(`/api/v1/recipes/${cookies._id}`)
@@ -166,30 +154,7 @@ describe('app routes', () => {
             'rating': 20,
             'recipeId': expect.any(String),
             'year': 2019,
-          }, {
-            '__v': 0,
-            '_id': expect.any(String),
-            'dateOfEvent': expect.any(String),
-            'day': 12,
-            'id': expect.any(String),
-            'month': 11,
-            'notes': 'more salt',
-            'rating': 15,
-            'recipeId': expect.any(String),
-            'year': 2019,
-          }, {
-            '__v': 0,
-            '_id': expect.any(String),
-            'dateOfEvent': expect.any(String),
-            'day': 12,
-            'id': expect.any(String),
-            'month': 11,
-            'notes': 'less peanutbutter',
-            'rating': 17,
-            'recipeId': expect.any(String),
-            'year': 2019,
-          }
-          ],
+          }],
           __v: 0
         });
       });
@@ -243,7 +208,7 @@ describe('app routes', () => {
           directions: ['preheat oven to 375', 'mix ingredients', 'put dough on cookie sheet', 'bake for 10 minutes'],
           ingredients: [{ _id: expect.any(String), amount: 1, measurements: 'cup', name: 'sugar' }, { _id: expect.any(String), amount: 3, measurements: 'cup', name: 'flour' }],
           name: 'cookies'
-        }, { deletedCount: 3, n: 3, ok: 1 }
+        }, { deletedCount: 1, n: 1, ok: 1 }
         ]);
       });
   });
