@@ -92,7 +92,9 @@ describe('app routes', () => {
         recipes.forEach(recipe => {
           expect(res.body).toContainEqual({
             _id: recipe._id.toString(),
-            name: recipe.name
+            name: recipe.name,
+            type: recipe.type,
+            imageURL: recipe.imageURL
           });
         });
       });
