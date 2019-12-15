@@ -32,7 +32,8 @@ describe('app routes', () => {
           'mix ingredients',
           'put dough on cookie sheet',
           'bake for 10 minutes'
-        ]
+        ],
+        type: 'Dessert'
       });
 
     cookieTries = await Attempt.create([
@@ -56,7 +57,8 @@ describe('app routes', () => {
           'mix ingredients',
           'put dough on cookie sheet',
           'bake for 10 minutes'
-        ]
+        ],
+
       })
       .then(res => {
         expect(res.body).toEqual({
@@ -118,6 +120,31 @@ describe('app routes', () => {
             _id: expect.any(String),
             name: 'flour', amount: 3, measurements: 'cup'
           }],
+          'type': 'Dessert',
+          'name': 'cookies'
+        }]);
+      });
+  });
+
+  it('gets all recipes based on type', () => {
+    return request(app)
+      .get('/api/v1/recipes?type=Dessert')
+      .then(res => {
+        expect(res.body).toEqual([{
+          '__v': 0,
+          '_id': JSON.parse(JSON.stringify(cookies._id)),
+          'directions': ['preheat oven to 375',
+            'mix ingredients',
+            'put dough on cookie sheet',
+            'bake for 10 minutes'],
+          'ingredients': [{
+            _id: expect.any(String),
+            name: 'sugar', amount: 1, measurements: 'cup'
+          }, {
+            _id: expect.any(String),
+            name: 'flour', amount: 3, measurements: 'cup'
+          }],
+          'type': 'Dessert',
           'name': 'cookies'
         }]);
       });
@@ -132,6 +159,7 @@ describe('app routes', () => {
           id: expect.any(String),
           _id: cookies._id.toString(),
           name: 'cookies',
+          type: 'Dessert',
           ingredients: [{
             _id: expect.any(String),
             name: 'sugar', amount: 1, measurements: 'cup', id: expect.any(String)
@@ -207,6 +235,7 @@ describe('app routes', () => {
         expect(res.body).toEqual([{
           __v: 0,
           _id: expect.any(String),
+          type: 'Dessert',
           directions: ['preheat oven to 375', 'mix ingredients', 'put dough on cookie sheet', 'bake for 10 minutes'],
           ingredients: [{ _id: expect.any(String), amount: 1, measurements: 'cup', name: 'sugar' }, { _id: expect.any(String), amount: 3, measurements: 'cup', name: 'flour' }],
           name: 'cookies'
